@@ -1,0 +1,4 @@
+
+TODO: write how to calculate -l mem requests and -Xmx correspondences.
+
+
