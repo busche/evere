@@ -2,3 +2,12 @@
 TODO: write how to calculate -l mem requests and -Xmx correspondences.
 
 
+use cases
+
+get_mem <queuefile> <request>
+get_xmx
+
+
+get_mem_max <base dir> <request> <queues>
+get_xmx_max
+

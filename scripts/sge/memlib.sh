@@ -34,6 +34,15 @@ function get_mem() {
         echo $((ret+2))
 }
 
+function get_mem_max() {
+	local ret="000"
+	for q in `echo $3 |  awk ' BEGIN{RS=","}; {  print $1 } '`; do
+		c=$(get_mem $1/$q $2)
+        	[[ $c -gt $ret ]] && ret=$c
+	done
+	echo "$ret"
+}
+
 function get_xmx() {
 #       echo "calculating memory for $1 at a required minimum of $2"
         ret=""
@@ -53,6 +62,15 @@ function get_xmx() {
                 ret=130
         fi
         echo $((ret-2))
+}
+
+function get_xmx_max() {
+	local ret="000"
+	for q in `echo $3 |  awk ' BEGIN{RS=","}; {  print $1 } '`; do
+		c=$(get_xmx $1/$q $2)
+        	[[ $c -gt $ret ]] && ret=$c
+	done
+	echo "$ret"
 }
 
 
