@@ -1,0 +1,160 @@
+= Book Title Goes Here
+
+:author: Andre Busche
+:encoding: iso-8859-1
+:doctype: book
+:plaintext:
+
+v1.0, 2014-05-05
+
+
+EveRe - Evening Research
+
+== Vorlesungssplittung
+
+1) Overview, organization, goals
+2) Overall pipeline and general split of tasks; general aim of research (what is the aim we are trying to reach: RMSE, etc.); Tools; CRISP-DM
+3) data preparation and data analysis; data splits
+4) data representation (on disc, in memory, etc. caching, bla bla) and requirements on input / output formats (standard formats, techniques for reading and writing, interfacing, ...)
+5) training a model / model selection
+6) applying a model / user interface usage
+7) reporting results; data visualization; discussion with the tutor
+
+
+* everywhere: checklists!
+
+== unsorted
+
+* each successive step (splitting, model training, etc.) is (similarly to git revisions) rsynced (with hard links) to a "traceback" folder. This additionally contains backlinks to its origin (and the parameters, etc., used to create the new content). This directory structure can, e.g., be parsed by dot to visualize a graph structure.
+** maybe the graph structure is dynamic wrt. to parameter it visualizes? e.g., variants based on the same lambda-hyperparameter?
+
+== Chapter 1: theoretic background
+
+highly structured work; daily progress control required
+* regression tests on accuracy scores
+
+
+=== definition of suitable (sub-)task - general requirements
+
+* should each be easily exchangeable -> shell scripts, etc., and defined input / output
+** 'staging directories' ? -> folder "input", folder "output"?
+
+
+==== requirements for individual subtaskstasks
+
+* lasts max. 2 hours (for one evening) (manageable after work (1-2 hours / day))
+
+==== requirements for technology
+
+* introduction should take max. 2 hours (30 min introduction video, 30 minutes reproduction and installation, 60 minutes for a first easy example)
+
+=== Introduction
+
+Different application scenarios: Machine Learner and Prototype developer.
+
+In general: each successive step contains all information from the previous steps (for reproducability and to know, where the data and parameters came from). A backlink, e.g., in terms of foreign keys, is sufficient.
+
+Requirement of the overall process / aim of the discussion here: Identify common components and roles, e.g., models should be applicable to internal, pre-split datasets and new data, e.g., uploaded to a Web Interface
+
+how and where to split components:
+
+* Data preparation
+* Data representation and E/R Diagram for the overall progress (1:n relationships everywhere -> hard to compute)
+* Model training
+* Selecting an optimal model (possibly due to divergant selection criteria)
+* Applying the Model
+
+==== Process Overview
+
+in general: make 2 hierarchies: the first hierarchy is the broad overview of the overall process; the second is some architectural view on individual sub-components and interactions, e.g., common interfaces for input and output; as well as concrete implementations. The result should be sth. like one "mini-framework" per layer / high-level component. In Java, e.g., customerdata.input; customerdata.output; customerdata.transformation, and ml.input; ml.method; ml.output? -> Reference different ways to decompose requirements into a package structure.
+
+==== Customer Data
+
+* What kind of data to consider?
+* What kind of variables?
+* etc.: not elaborating; give references to books.
+
+===== Checklist:
+
+* Query and Define project objective from the customer (what is the goal?) Try to formalize it (such that you can justify that you reached the objectives at the end of the project).
+
+==== ML representation
+
+* Define a suitable representation of the data to directly apply ML methods. The representation should also be a valid input for external implementations such as *state some standard implementation of C4.5, RF, LibSVM, etc. here*, so foreign methods can readily be applied to in-house data.
+
+===== Checklist:
+
+* Document, which data (columns) is derived from which source. Also document potential side effects.
+* Error conditions are defined (e.g., value ranges are determined for a later check of validity of customer data input).
+* application to new data is possible; the ETL does not depend on certain data-specific input (e.g., normalization throughout the overall dataset). E.g., if normalization is applied, the normalization parameters need to be stored to be re-applied to new, unknown data later on!
+
+==== Create splits
+
+* potentially different kind of splits are necessary(depending on the application scenario)
+
+===== Checklist:
+
+* splits capture real world scenarios
+* splits are reproducable
+
+
+=== Learning Models
+
+The aim is to generalize over given data and determine a 'model'.
+The model contains: 
+(a) the parameters and hyperparameters
+(b) when shipped / to be deployed later: techniques to transform customer data to a valid input representation of the model
+(c) in the best case a unique interface wrt. the target, e.g. <target> classify(<customer-data-instance> i);
+(d) the implementation for actually applying the model to data.
+Most current approaches only consider (a) to be the output of this step!
+
+
+Input of the layer:
+
+* train / test (here: validation part) split of the data in a valid ML format
+* hyperparameters
+
+Output of the layer:
+ 
+* parameters
+* 
+
+=== Applying Models and Predicting Labels
+
+The aim is to apply the model using the model parameters (output of the former step)
+
+===== Checklist:
+* Error conditions (e.g., invalid input; new data out of range) are handled appropriately (e.g., output a warning; throw an exception)
+* application to new data is possible; the documentation is sufficient for an outsider to apply the model using pre-determined (hyper)parameters to own data.
+* The implementation for applying the model has no dependencies on the training phase
+
+
+
+=== relations
+
+* Vanschoren - experiment database (for continuous monitoring)
+* Krohn-Grimberghe - monitoring performance on individual instances
+** requirement: implementations should output instance-individual performance scores
+
+
+== Chapter 2: Implementation
+
+=== Introduction
+
+Usage of Linux Batch cluster, Java and Bash
+
+
+
+=== Proposed file and folder structure
+.
+=== Bootstrap for Component Initialization and Usage	
+.
+=== Database scheme for regression testing
+.
+== Chapter 3: Case Studies
+.
+=== MHH Use Case
+.
+=== AcoGPR? <- sth. better would be desirable...
+
+
