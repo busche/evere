@@ -32,4 +32,5 @@ subdirs: $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@
 
-
+clean:
+	rm -rf book/
