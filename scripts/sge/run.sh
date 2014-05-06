@@ -22,14 +22,15 @@ done
 #xmx="-Xmx4G"
 #shift
 mem=`ulimit -v`
-if [ 'x'$memlimit = 'xunlimited']; then
+if [ 'x'$memlimit = 'xunlimited' ]; then
 	echo "unlimited memory - hooray!"
 	mem=`cat /proc/meminfo |grep MemTotal |awk ' { print $2 } '`
 fi
 
 source ./memlib.sh
-if [ ! $? = 0 ]; then
-	echo "unable to source memlib.sh. Does if exist?"
+res=$?
+if [ ! $res = 0 ]; then
+	echo "unable to source memlib.sh (\$?=${res}. Does if exist?"
 	exit 1
 fi
 
