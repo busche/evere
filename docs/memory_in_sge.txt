@@ -1,13 +1,96 @@
 
-TODO: write how to calculate -l mem requests and -Xmx correspondences.
+
+== Problem description
+
+Given that the qsub switches -l mem and -l h_mem limit the overall amount of memory a job may consume,  Java segfaults due to excessive memory consumption.
+Unfortunately, the memory consumption cannot me restricted.
+Instead, one may, e.g., use -Xmx to limit one proportion of Java's memory layout.
+
+The problem is to identify suitable values for -l mem and -Xmx in the context of the Open Grid Engine.
+
+== Additional contraints and effects
+
+The ratio between the memory limit and -Xmx is dependent on the host running the Java process.
+An assumption is that this is related to the amount of CPUs which are available on a system.
+This is taken into consideration using this approach.
+
+Within the context of OGE, there are two kinds of program abort conditions:
+
+* The OGE kills the process
+* Java kills itself
+
+For the former case, an email is sent to the job submitter, if specified.
+The latter case causes the creation of a core.<pid> and hs_err_<pid>.log file in the current working directory. 
+No email is sent to the job submitter if Java was launched from within a script.
+
+This approach tries to identify an upper bound for the memory request such that no jobs get killed in any way.
+
+== The solution
+
+A solution is found by a bijective, queue-dependent mapping lookup table.
+It allows for determining suitable Xmx values for a given memory limit (using `ulimit) and vice versa.
+The mapping takes the queue a job runs in into consideration.
+
+The memlib.sh shell file contains the definition of four bash functions realizing such a mapping.
+Script need to include those by adding the line
+----
+	. ./memlib.sh
+----
+potentially taking a different location of the file into consideration.
+The four methods are:
+
+. get_mem
+. get_mem_max
+. get_xmx
+. get_xmx_max
+
+The former two realize the mapping from Xmx values to OGE memory requests, while the latter 2 methods convert ulimit values into suitable Xmx values.
+A small margin / gap of 2 units applied to be on the safe side (e.g., given that a mapping from ulimit 50 corresponds to an Xmx value of 33 in the mapping table, a value of 31 is returned instead)
+
+Both, get_mem and get_xmx take two arguments:
+(1) the file containing the mapping entries, and
+(2) the value to be mapped
+
+The XXXX_max methods determine an optimal value if multiple queues are used.
+They take three arguments:
+(1) the base directory where mapping files are sought
+(2) the value to be mapped
+(3) a comma-separated, non-spaced list of file names each containing mapping entries.
 
 
-use cases
+=== Advice
+. The file names shall correspond to queue names. Then, paramter (3) for the XXXX_max functions exactly match with valid values of the -q parameter for qsub
 
-get_mem <queuefile> <request>
-get_xmx
+=== Current Implementation notes
+
+In the current implementation, mapping entries correspond to hundred-valued entries, that is, the mapping file stored 30 to denote the value of 3000, whereas 94 denotes a value of 9400.
+In the current infrastructure, mapping files are stored at /acogpr/meta/<queue-name>, e.g., /acogpr/meta/all.q
+
+=== Example usages
+
+A typical usage scenario looks as follows (have a look above on the semantics of the returned value from the current implementation):
+
+	. ./memlib.sh
+
+	mem=`ulimit -v`
+	memlookup=$(($mem/102400))
+	val=$(get_xmx /acogpr/meta/$QUEUE $memlookup )
+	
+	java -Xmx${val}00M ...
+
+The example does not take an unlimited environment (`ulimit -v` returning unlimited) into consideration. 
+You may want to have a look at scripts/sge/run.sh for an example of this scenario.
 
 
-get_mem_max <base dir> <request> <queues>
-get_xmx_max
+The following usage (also for the xmx version of the function) is equivalent:
+
+	mem=$(get_mem "./meta/test.q" "50")
+	mem=$(get_mem_max "./meta" "50" "test.q")
+
+
+
+== Estimating request and consumption memory tables
+
+TODO: documented elsewhere.
+
 
