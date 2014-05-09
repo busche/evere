@@ -1,0 +1,155 @@
+
+== Properties expansion
+
+Properties expansion allows for a definition of key-value properties which can be used jointly from both, the Linux command line (through bash variables) and from Java sourcecode.
+In addition to simple key-value pairs, variables (keys) may be used in values of other key-value pairs, such that an automated substitution (recursive substitution) is possible as well (see also the known limitation below).
+
+One aim of this technique is to furthermore allow for a 'split of responsibilities' within the properties files.
+This is accomplished by mimicking the inheritance technique known from OOP:
+Properties files are capable for including other properties files (conceptually known as subclassing which also unifies declared member fields).
+This is useful, e.g., in the Machine Learning setting, to separate constant, environment-depedent variables (such as library and data search paths and database connection strings) from experiment-specific settings (such as hyperparameter search grids and database tables to work on).
+
+=== History
+
+* 2011: A first draft as implemented in Bootstrap (as de.ismll.console.LaunchConfig) was withdrawn due to an overly complicated and too narrow focus.
+
+
+
+== General idea
+
+The key idea is to have a single place where configurations are stored in a declarative way.
+This configuration files may consist of arbitrarily many key-value pairs.
+Independent processing steps (see :TODO: splitting the Machine Learning pipeline) have two characteristic properties:
+* They each require a common set of key-value pairs
+	Examples include the location where data is read from initially, and the location of intermediate folders which is used by models to exchange intermediate results (through serialization)
+* They require module-dependent key-value pairs
+	As an example, the hyperparameter search grid is only required for determining evaluation scores on validation data. The model selection step does not need to be aware of the exact hyperparameter values, if they are located at a certain location which is bound to the validation score selected to be the best.
+
+From my own experience, certain requirements are set.
+	
+=== Requirements
+
+* Utilization from both, the Linux command line (bash) and from within Java
+* Variable expansion, to recursively define variables
+
+== Relations to other approaches
+
+The usage of properties files is not new and commonly done in a variety of projects.
+This section shall summarize relevant projects which influenced the development of this library.
+
+=== Spring configuration
+
+Spring (www.spring.io) is a library for dependency injection.
+It uses an EL (Expression Language) for recursively referencing key-value pairs read from properties files when defining Spring Beans.
+
+=== EBLearn metarun configurations
+
+The metarun tool in eblearn follows the same approach, but is limited to the expansion of properties files to multiple properties files, which they call 'configuration files'.
+It transforms one 'abstract' configuration file into many concrete configuration files.
+The 'source' configuration file may contain key-value pairs such as
+
+	key=val1 val2 val3
+
+(space-delimited multi-valued values). 
+In the example above, three resultant configuration files will be generated, each containing a single assignment of the key to each of the values mentioned in the source configuration file.
+If multiple key-value pairs are multi-valued, the carthesian product of the declarations are generated as configuration files.
+
+=== Plan7 ???
+
+E-Mail from Soumith 2013-06-19
+
+== Usage
+
+The section will show the usage of the library from bash and within Java.
+One important note needs to be stated before specific examples are given:
+Properties files following this approach need to be suitable bash scripts.
+
+=== Concept and format
+
+The file format essentially follows the well-known properties file concept.
+Other keys may be referenced using the ${...} operator, where ... denotes the value of a foreign key.
+An example is given as follows:
+
+	a=1
+	b=${a}
+	c=${b}
+
+Please note that - unlike it would be possible in plain bash, an assignment as b=$a (without curly braces) is *not* possible.
+The general aim of this library is that each of the variables a, b and c are assigned with the value 1.
+
+=== Bash
+
+For expanding properties values in bash, the readProplib.sh utility function needs to be included using
+
+	. ./readProplib.sh
+
+(note that the dot in the beginning is crucial as it actually includes the file, rather than to execute it in a separate subprocess which would not set variables accordingly).
+readProplib.sh defined ones bash function: sourcein, which takes two parameters: (a) a unique identifier (which can be arbitrary, but should to be unique throughout your project) and (b) the file to be included.
+
+sourcein works in a similar way as the bash built-in function source, while extending its functionality with the variable expansion technique.
+The unique idenfier is used for creating a unique temporary file (which is used to expand the variables and gets automatically deleted at the end of the expansion).
+
+An example usage in a script file looks as follows:
+
+	. ./readProplib.sh
+	
+	sourcein 'uni1' specific.properties
+	
+The readProplib.sh defines the sourcein function, which is used to read and expand the contents of the file specific.properties into bash variables.
+As an example, if the file specific.properties contains the line
+
+	a=1
+
+the example script could use $a or ${a} for referencing the value from the properties file, 1.
+After a properties file was sourced in, all properties are set as defined in the file (e.g., you can also override variables!).
+
+The same mechanism works from within the file specific.properties: 
+As it is included as a bash function, it may in turn call the function sourcein to obtain variables defined from other properties files.
+This is the way the 'inheritance' is realized.
+See the limitations below on the format and current expansion of the properties files.
+
+
+=== Java
+
+
+class name, sample code, ...
+
+== Implementation
+
+Implementation sketch to follow.
+
+=== Bash
+
+Implementation sketch to follow: awk
+
+=== Java
+
+Implementation sketch to follow: Java properties and recursive substitution
+
+== Limitations
+
+Currently, there are the following known limitations:
+
+* Inclusion as bash shell script
+	
+	As the properties files are sourced as a shell script, it needs to be a valid bash file.
+	On the other hand, it gets parsed as a properties file from within Java.
+	This limits the overall functionality to some extent:
+	Function definitions are *not* possible, as functions usually (a) span multiple lines and (b) do not contain an equals (=) sign as a delimiter between key and value.
+
+* Limited nesting level of 1 on bash
+
+	Currently, only one level of expansion is implemented in the context of bash.
+	In the example above, the sourcein function would result in the following variables to be available in bash:
+		
+		a=1
+		b=1
+		c=${b}
+		
+* TODO: Test, whether inclusion from within Java works.
+
+
+Future work
+
+* expansion of properties files similar to eblearn metarun and usage of LaunchConfig
+
