@@ -27,6 +27,8 @@ EveRe - Evening Research
 
 * each successive step (splitting, model training, etc.) is (similarly to git revisions) rsynced (with hard links) to a "traceback" folder. This additionally contains backlinks to its origin (and the parameters, etc., used to create the new content). This directory structure can, e.g., be parsed by dot to visualize a graph structure.
 ** maybe the graph structure is dynamic wrt. to parameter it visualizes? e.g., variants based on the same lambda-hyperparameter?
+* TODO: create a utility script,  similarly to yocto (. ./setup-environment) to define functions readily to be used on the command line. Take care of bash subprocessed and 'inline' definition (source vs. ./)
+
 
 == Chapter 1: theoretic background
 
