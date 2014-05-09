@@ -27,10 +27,14 @@ if [ 'x'$memlimit = 'xunlimited' ]; then
 	mem=`cat /proc/meminfo |grep MemTotal |awk ' { print $2 } '`
 fi
 
-source ./memlib.sh
+if [ ! -f memlib.sh ]; then
+	echo "memlib.sh is no file ! (???)"
+fi
+
+. ./memlib.sh
 res=$?
 if [ ! $res = 0 ]; then
-	echo "unable to source memlib.sh (\$?=${res}. Does if exist?"
+	echo "unable to source memlib.sh (\$?=${res}). Does if exist?"
 	exit 1
 fi
 
