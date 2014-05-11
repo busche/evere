@@ -4,7 +4,7 @@
 # * support for non-properties-lines and normal bash functions (lines without equals = sign). WARNING: Disambiguation is a crude heuristic!!! Everything without a equals sign is simply echoed. E.g., bash functions will not work!!!
 # * added function sourcein() to include a source file (similar to . semantic): expands a given file (and its properties), sources it, and thereafter cleans up resources.
 # * added echorpl function
-#!/bin/bash
+
 readProp ()
 {
     v_prop_name=$1;shift
