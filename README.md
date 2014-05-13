@@ -18,6 +18,9 @@ As such, all content contained herein needs to be adapted to individual needs an
 required tools and dependencies
 ===============================
 
+* Asciidoc (for building the documentation,  see http://www.methods.co.nz/asciidoc/)
+* the make file system
+
 time schedule
 =============
 
