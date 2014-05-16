@@ -1,0 +1,15 @@
+digraph component_state {
+on_init;
+on_run;
+on_abort;
+on_success;
+on_exit;
+
+on_init -> on_run;
+on_run -> on_success [label="errorlevel==0"];
+on_run -> on_abort [label="errorlevel>0"];
+on_success -> on_exit;
+on_abort -> on_exit;
+
+	
+}
