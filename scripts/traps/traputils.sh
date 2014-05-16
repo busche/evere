@@ -1,15 +1,28 @@
 
+#
+# default implementation of INT trap
+#
+#
+#
 function sighandler_trap_INT(){
 	echo "SIGINT"
 	exit 0
 }
 
+#
+# utility function for checking function existence
+#
+# taken from http://stackoverflow.com/questions/85880/determine-if-a-function-exists-in-bash
+#
 function fn_exists()
 {
-    type $1 | grep -q 'shell function'
+    type $1 2>/dev/null | grep -q 'shell function'
 }
 
-fn_exists on_setup || on_setup(){ echo "stubbed on_setup"; }
+# define on_setup if it is not (yet) defined
+fn_exists on_setup || on_setup() {
+echo "stubbed on_setup"
+}
 
 #trap 'sighandler_trap_INT' 2
 
