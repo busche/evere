@@ -20,6 +20,7 @@ required tools and dependencies
 
 * Asciidoc (for building the documentation,  see http://www.methods.co.nz/asciidoc/)
 * the make file system
+* Graphviz / dot, see http://www.graphviz.org
 
 time schedule
 =============
