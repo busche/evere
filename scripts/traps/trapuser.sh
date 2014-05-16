@@ -2,15 +2,17 @@
 
 . traputils.sh
 
-on_setup() {
-	echo "custom set up"
+on_init() {
+	echo "on_setup:: custom set up"
 }
 
 on_run(){
-
-	echo "running the program"
-	sleep 10
-	echo "quit"
+ulimit -v 1000000
+	echo "on_run:: running the program"
+	java -version
+	echo $?
+#	sleep 1
+#	echo "on_run:: quit"
 
 }
 

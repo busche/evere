@@ -6,7 +6,7 @@
 #
 function sighandler_trap_INT(){
 	echo "SIGINT"
-	exit 0
+#	exit 0
 }
 
 #
@@ -20,8 +20,8 @@ function fn_exists()
 }
 
 # define on_setup if it is not (yet) defined
-fn_exists on_setup || on_setup() {
-echo "stubbed on_setup"
+fn_exists on_init || on_init() {
+echo "stubbed on_init"
 }
 
 #trap 'sighandler_trap_INT' 2
@@ -30,10 +30,13 @@ echo "stubbed on_setup"
 function guarded_run(){
 
 trap 'sighandler_trap_INT' 2
-on_setup
-echo "starting at `date`"
-on_run
-echo "stopping at `date`"
+
+	on_init
+	echo "starting at `date`"
+	on_run
+	retval=$?
+	echo "stopping at `date` with errorlevel $retval"
+	echo $retval
 
 }
 
