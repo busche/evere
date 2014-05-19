@@ -149,6 +149,10 @@ The aim is to apply the model using the model parameters (output of the former s
 * Krohn-Grimberghe - monitoring performance on individual instances
 ** requirement: implementations should output instance-individual performance scores
 
+==== V-Modell / process models
+
+http://dl.acm.org/citation.cfm?id=1188906
+
 
 == Chapter 2: Implementation
 
