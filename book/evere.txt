@@ -40,6 +40,8 @@ highly structured work; daily progress control required
 
 * should each be easily exchangeable -> shell scripts, etc., and defined input / output
 ** 'staging directories' ? -> folder "input", folder "output"?
+* Related to blackbox-testing in software testing:
+** check of interfaces (input and output data and arguments) per module / processing step
 
 
 ==== requirements for individual subtaskstasks
@@ -65,6 +67,15 @@ how and where to split components:
 * Model training
 * Selecting an optimal model (possibly due to divergant selection criteria)
 * Applying the Model
+
+Test each module(blackbox).
+Whitebox-tests: not covered here (required to be delivered by foreign implementations).
+
+TODO: Adapt V-Model to processing steps of ML experiments and show similarities.
+IDEA: Article in german magazin?
+
+
+
 
 ==== Process Overview
 
