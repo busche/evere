@@ -52,6 +52,23 @@ highly structured work; daily progress control required
 
 * introduction should take max. 2 hours (30 min introduction video, 30 minutes reproduction and installation, 60 minutes for a first easy example)
 
+==== Tools to have a look at
+
+Spend 2 hours per tool in a row; and spend 1 hour to summarize the experiences.
+TODO: Define 'common tasks' (CRUD, etc.) to be performed by each tool
+
+===== REST over bash
+
+. http://www.ovirt.org/REST_API_Using_BASH_Automation
+. http://thechangelog.com/resty-rest-client-bash-zsh/
+. https://github.com/micha/resty
+
+===== Neo4j
+
+
+
+===== Bugzilla
+
 === Introduction
 
 Different application scenarios: Machine Learner and Prototype developer.
