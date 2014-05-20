@@ -7,13 +7,13 @@ on_init() {
 }
 
 on_run(){
-ulimit -v 1000000
+#ulimit -v 1000000
 	echo "on_run:: running the program"
 	java -version
-	echo $?
+	javaret=$?
 #	sleep 1
 #	echo "on_run:: quit"
-
+	return $javaret
 }
 
 
