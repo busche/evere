@@ -62,6 +62,7 @@ TODO: Define 'common tasks' (CRUD, etc.) to be performed by each tool
 . http://www.ovirt.org/REST_API_Using_BASH_Automation
 . http://thechangelog.com/resty-rest-client-bash-zsh/
 . https://github.com/micha/resty
+.. curl -X POST -H "Content-Type: application/json"  -H "Accept: application/json;  charset=UTF-8" -d '{  "statements" : [ {    "statement" : "CREATE (TheMatrix:Movie {title:\"The Matrix\",  released:1999,  tagline:\"Welcome to the Real World\"})" }]}' http://172.16.102.39:7474/db/data/transaction/commit -v
 
 ===== Neo4j
 
