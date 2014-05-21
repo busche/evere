@@ -40,6 +40,8 @@ highly structured work; daily progress control required
 
 * should each be easily exchangeable -> shell scripts, etc., and defined input / output
 ** 'staging directories' ? -> folder "input", folder "output"?
+* Related to blackbox-testing in software testing:
+** check of interfaces (input and output data and arguments) per module / processing step
 
 
 ==== requirements for individual subtaskstasks
@@ -49,6 +51,24 @@ highly structured work; daily progress control required
 ==== requirements for technology
 
 * introduction should take max. 2 hours (30 min introduction video, 30 minutes reproduction and installation, 60 minutes for a first easy example)
+
+==== Tools to have a look at
+
+Spend 2 hours per tool in a row; and spend 1 hour to summarize the experiences.
+TODO: Define 'common tasks' (CRUD, etc.) to be performed by each tool
+
+===== REST over bash
+
+. http://www.ovirt.org/REST_API_Using_BASH_Automation
+. http://thechangelog.com/resty-rest-client-bash-zsh/
+. https://github.com/micha/resty
+.. curl -X POST -H "Content-Type: application/json"  -H "Accept: application/json;  charset=UTF-8" -d '{  "statements" : [ {    "statement" : "CREATE (TheMatrix:Movie {title:\"The Matrix\",  released:1999,  tagline:\"Welcome to the Real World\"})" }]}' http://172.16.102.39:7474/db/data/transaction/commit -v
+
+===== Neo4j
+
+
+
+===== Bugzilla
 
 === Introduction
 
@@ -65,6 +85,15 @@ how and where to split components:
 * Model training
 * Selecting an optimal model (possibly due to divergant selection criteria)
 * Applying the Model
+
+Test each module(blackbox).
+Whitebox-tests: not covered here (required to be delivered by foreign implementations).
+
+TODO: Adapt V-Model to processing steps of ML experiments and show similarities.
+IDEA: Article in german magazin?
+
+
+
 
 ==== Process Overview
 
@@ -137,6 +166,10 @@ The aim is to apply the model using the model parameters (output of the former s
 * Vanschoren - experiment database (for continuous monitoring)
 * Krohn-Grimberghe - monitoring performance on individual instances
 ** requirement: implementations should output instance-individual performance scores
+
+==== V-Modell / process models
+
+http://dl.acm.org/citation.cfm?id=1188906
 
 
 == Chapter 2: Implementation
