@@ -1,0 +1,27 @@
+
+
+
+
+
+deletes relationships
+
+	./neo4j_statement.sh "Match (n)-[r]-> (o) DELETE r"
+	
+deletes nodes
+	
+	./neo4j_statement.sh "Match (n) DELETE (n)"
+			
+inserts various things
+				
+	./neo4j_statement.sh 'CREATE (TheMatrix:Movie {title:\"The Matrix\",  released:1999,  tagline:\"Welcome to the Real World\"})'
+	./neo4j_statement.sh 'CREATE (TheMatrix2:Movie {title:\"The 2--Matrix\",  released:19991,  tagline:\"Welcome to the World\"})'
+						
+ensure the node exists
+							
+	./neo4j_statement.sh  'MERGE (MHH:Dataset)'
+									
+add a relationship from the named node to a new one.
+
+	./neo4j_statement.sh  'MATCH (MHH:Dataset) MERGE (MHH:Dataset)-[:split]->(d:Fold {name:\"d\"})'
+									
+											
