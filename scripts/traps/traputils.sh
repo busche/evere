@@ -13,15 +13,12 @@ function sighandler_trap_SIGINT(){
 	warn "SIGINT"
 }
 
-
-
 #
 # default implementation of SIGQUIT signal
 #
 function sighandler_trap_SIGQUIT(){
 	warn "SIGQUIT"
 }
-
 
 #
 # default implementation of SIGABRT signal
@@ -43,8 +40,6 @@ function sighandler_trap_SIGKILL(){
 function sighandler_trap_SIGALRM(){
 	warn "SIGALRM"
 }
-
-
 
 #
 # default implementation of SIGTERM signal
@@ -78,15 +73,17 @@ fn_exists on_exit || function on_exit() {
 }
 
 # define logging methods
-function trace () {
+fn_exists on_init || function trace () {
 	echo "TRACE: "$*
 }
-function error() {
+fn_exists on_init || function error() {
 	echo "ERROR: "$*
 }
-function warn() {
+fn_exists on_init || function warn() {
 	echo `date`" WARNING: "$*
 }
+
+# register trap handler
 trap 'sighandler_trap_SIGHUP' SIGHUP
 trap 'sighandler_trap_SIGINT' SIGINT
 trap 'sighandler_trap_SIGQUIT' SIGQUIT
@@ -95,21 +92,12 @@ trap 'sighandler_trap_SIGKILL' SIGKILL
 trap 'sighandler_trap_SIGALRM' SIGALRM
 trap 'sighandler_trap_SIGTERM' SIGTERM
 
-
-
-
-
-
-
 #
 # main function, guarding the on_run method
 #
 # currently,  this mostly creates a simple lifecycle by calling callback methods.
 #
 function guarded_run() {
-
-	# register traps this should be handled
-	trap 'sighandler_trap_INT' 2
 
 	# initialize calling on_init
 	trace "calling on_init"
