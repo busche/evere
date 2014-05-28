@@ -1,12 +1,56 @@
 
 #
-# default implementation of INT trap
+# default implementation of SIGHUP signal
 #
+function sighandler_trap_SIGHUP(){
+	warn "SIGHUP"
+}
+
 #
+# default implementation of SIGINT signal
 #
-function sighandler_trap_INT(){
-	echo "SIGINT"
-#	exit 0
+function sighandler_trap_SIGINT(){
+	warn "SIGINT"
+}
+
+
+
+#
+# default implementation of SIGQUIT signal
+#
+function sighandler_trap_SIGQUIT(){
+	warn "SIGQUIT"
+}
+
+
+#
+# default implementation of SIGABRT signal
+#
+function sighandler_trap_SIGABRT(){
+	warn "SIGABRT"
+}
+
+#
+# default implementation of SIGKILL signal
+#
+function sighandler_trap_SIGKILL(){
+	warn "SIGKILL"
+}
+
+#
+# default implementation of SIGALRM signal
+#
+function sighandler_trap_SIGALRM(){
+	warn "SIGALRM"
+}
+
+
+
+#
+# default implementation of SIGTERM signal
+#
+function sighandler_trap_SIGTERM(){
+	warn "SIGTERM"
 }
 
 #
@@ -40,7 +84,22 @@ function trace () {
 function error() {
 	echo "ERROR: "$*
 }
-#trap 'sighandler_trap_INT' 2
+function warn() {
+	echo `date`" WARNING: "$*
+}
+trap 'sighandler_trap_SIGHUP' SIGHUP
+trap 'sighandler_trap_SIGINT' SIGINT
+trap 'sighandler_trap_SIGQUIT' SIGQUIT
+trap 'sighandler_trap_SIGABRT' SIGABRT
+trap 'sighandler_trap_SIGKILL' SIGKILL
+trap 'sighandler_trap_SIGALRM' SIGALRM
+trap 'sighandler_trap_SIGTERM' SIGTERM
+
+
+
+
+
+
 
 #
 # main function, guarding the on_run method

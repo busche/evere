@@ -9,6 +9,8 @@ on_init() {
 on_run(){
 #ulimit -v 1000000
 	echo "on_run:: running the program"
+	echo "$$"
+	sleep 9
 	java -version
 	javaret=$?
 #	sleep 1
