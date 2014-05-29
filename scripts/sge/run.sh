@@ -10,6 +10,19 @@
 #$ -M busche@ismll.de
 #$ -R y
 
+if [ -f traputils.sh ]; then
+	echo "including traputils component ..."
+	. traputils.sh
+else
+	# make a stub of the guarded_run function which would be defined in the traputils component.
+	function guarded_run() {
+		on_run "$@"
+	}
+fi
+
+# this function runs the java program.
+function on_run() {
+
 if [ $JAVA_HOME'w' = 'w' ]; then
 	export JAVA_HOME=/usr/java/latest
 fi
@@ -18,9 +31,7 @@ cp="."
 for f in `ls *.jar -1`; do
         cp=${cp}":"${f}
 done
-#xmx=$1
-#xmx="-Xmx4G"
-#shift
+
 mem=`ulimit -v`
 if [ 'x'$memlimit = 'xunlimited' ]; then
 	echo "unlimited memory - hooray!"
@@ -58,3 +69,7 @@ echo meta.numslots=$NSLOTS
 java -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 ${xmx} -classpath $cp $JAVA_OPTS de.ismll.console.Generic "$@"
 
 echo meta.date.end=`date`
+
+} #of function run()
+
+guarded_run "$@"

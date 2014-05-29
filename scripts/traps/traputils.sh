@@ -101,13 +101,13 @@ function guarded_run() {
 
 	# initialize calling on_init
 	trace "calling on_init"
-	on_init
+	on_init "$@"
 	trace "on_init finished"
 
 	# call on_run
 	trace "calling on_run"
 	echo "starting at `date`"
-	on_run
+	on_run "$@"
 	retval=$?
 	trace "on_run finished, returnvalue=$retval"
 
@@ -118,16 +118,16 @@ function guarded_run() {
 	else
 		if [ $retval = 0 ]; then
 			trace "calling on_success"
-			on_success
+			on_success "$@"
 			trace "on_success finished"
 		else
 			trace "calling on_abort"
-			on_abort
+			on_abort "$@"
 			trace "on_abort finished"
 		fi	
 	fi
 	trace "calling on_exit"
-	on_exit	
+	on_exit	 "$@"
 	trace "on_exit finished"
 }
 
