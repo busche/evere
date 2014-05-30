@@ -1,0 +1,30 @@
+digraph modules {
+	
+	CUSTOMER_DATA [tooltip="raw customer data; dirty"];
+	ML_READY_DATA [tooltip="data which can be used as ML input"];
+	EXPERIMENT_DESIGN [tooltip="data, splits and relations according to a certain problem setting"];
+	ML_MODELS_PER_HPSET [tooltip="models per hyperparameter combination"];
+	BEST_VALIDATION_MODEL [tooltip="best model wrt. user-defined selection criteria"];
+	TEST_SCORE;
+	AGGREGATED_PERFORMANCE;
+
+	// default linear transition
+	CUSTOMER_DATA -> ML_READY_DATA [label="ETL"];
+	subgraph cluster_ml_questions {
+		color=lightgrey;
+		node [style=filled, color=blue];
+		ML_READY_DATA -> EXPERIMENT_DESIGN [label="splitting, formalization"];
+
+		subgraph cluster_ml_experiment {
+			EXPERIMENT_DESIGN -> ML_MODELS_PER_HPSET [label="grid search"];
+
+			subgraph cluster_discrete_hyperparameter_space {
+				ML_MODELS_PER_HPSET;
+			} // of subgraph cluster_discrete_hyperparameter_space
+			ML_MODELS_PER_HPSET -> BEST_VALIDATION_MODEL [label="model selection"];
+			BEST_VALIDATION_MODEL -> TEST_SCORE [label="model application on test data"];
+			TEST_SCORE -> AGGREGATED_PERFORMANCE [label="averaged test performance"];
+		} // of subgraph cluster_ml_experiment
+	} // of subgraph cluster_ml_questions
+
+}
