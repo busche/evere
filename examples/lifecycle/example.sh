@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. lifecycle.sh
+. lifecycleutils.sh
 . common.sh
 . traputils.sh
 
