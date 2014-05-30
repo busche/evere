@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. lifecycle.sh
+. common.sh
 . traputils.sh
 
 on_init() {

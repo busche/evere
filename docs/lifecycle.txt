@@ -1,0 +1,4 @@
+
+
+TODO: lifecycle according to the figure (android-like)
+
