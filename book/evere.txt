@@ -43,6 +43,15 @@ highly structured work; daily progress control required
 * Related to blackbox-testing in software testing:
 ** check of interfaces (input and output data and arguments) per module / processing step
 
+=== Modules
+
+* define one module per 'individual processing step' (I/O, train, apply) which has individual versioning
+** relates to configuration managament
+** related to versioning, e.g., in Maven. Each module has its own versioning / development cycle. Milestones 'combine' different modules in different versions. Cf. OSGi
+** define success criteria per module (e.g., data is successfully / transparently read and written, (baseline-)module can be trained and successfully applied to data)
+** define checklists per module
+
+
 
 ==== requirements for individual subtaskstasks
 
@@ -66,9 +75,11 @@ TODO: Define 'common tasks' (CRUD, etc.) to be performed by each tool
 
 ===== Neo4j
 
-
+TODO: Write
 
 ===== Bugzilla
+
+TODO: Write
 
 === Introduction
 
@@ -86,11 +97,13 @@ how and where to split components:
 * Selecting an optimal model (possibly due to divergant selection criteria)
 * Applying the Model
 
-Test each module(blackbox).
+Test each module(blackbox). -> input / return values are checked.
+
 Whitebox-tests: not covered here (required to be delivered by foreign implementations).
 
 TODO: Adapt V-Model to processing steps of ML experiments and show similarities.
 IDEA: Article in german magazin?
+
 
 
 
@@ -158,7 +171,7 @@ The aim is to apply the model using the model parameters (output of the former s
 * Error conditions (e.g., invalid input; new data out of range) are handled appropriately (e.g., output a warning; throw an exception)
 * application to new data is possible; the documentation is sufficient for an outsider to apply the model using pre-determined (hyper)parameters to own data.
 * The implementation for applying the model has no dependencies on the training phase
-
+* Scores are reported on the loss the model was optimized for
 
 
 === relations
