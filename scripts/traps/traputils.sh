@@ -4,6 +4,10 @@
 # defines traps and handlers for capturing various events on bash
 #
 
+#
+# TODO: consider adding SIGTRAP SIGUSR1 SIGUSR2
+#
+
 # include definitions from common.sh (logging, fn_exists)
 . common.sh
 
