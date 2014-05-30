@@ -21,14 +21,17 @@ function fn_exists()
 
 
 # logging methods
-fn_exists on_init || function trace () {
+fn_exists trace || function trace () {
 	echo "TRACE: "$*
 }
-fn_exists on_init || function error() {
-	echo "ERROR: "$*
+fn_exists info2 || function info2() {
+	echo `date`" INFO: "$*
 }
-fn_exists on_init || function warn() {
+fn_exists warn || function warn() {
 	echo `date`" WARNING: "$*
+}
+fn_exists error || function error() {
+	echo "ERROR: "$*
 }
 
 

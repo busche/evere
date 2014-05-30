@@ -10,9 +10,13 @@
 #$ -M busche@ismll.de
 #$ -R y
 
-if [ -f traputils.sh ]; then
-	echo "including traputils component ..."
-	. traputils.sh
+# defines loogging messages,  etc.
+echo "including common function definitions"
+. common.sh
+
+if [ -f lifecycleutils.sh ]; then
+	info2 "including lifecycleutils.sh component ..."
+	. lifecycleutils.sh
 else
 	# make a stub of the guarded_run function which would be defined in the traputils component.
 	function guarded_run() {
@@ -20,55 +24,21 @@ else
 	}
 fi
 
+# include java defintions
+info2 "including java target definitions"
+. target_java.sh
+
 # this function runs the java program.
 function on_run() {
 
-if [ $JAVA_HOME'w' = 'w' ]; then
-	export JAVA_HOME=/usr/java/latest
-fi
+info2 meta.hostname=$HOSTNAME
+trace meta.date.start=`date`
+trace meta.numslots=$NSLOTS
 
-cp="."
-for f in `ls *.jar -1`; do
-        cp=${cp}":"${f}
-done
+# use the defined function to call the java executable with these parameters
+run_java de.ismll.console.Generic "$@"
 
-mem=`ulimit -v`
-if [ 'x'$memlimit = 'xunlimited' ]; then
-	echo "unlimited memory - hooray!"
-	mem=`cat /proc/meminfo |grep MemTotal |awk ' { print $2 } '`
-fi
-
-if [ ! -f memlib.sh ]; then
-	echo "memlib.sh is no file ! (???)"
-fi
-
-. ./memlib.sh
-res=$?
-if [ ! $res = 0 ]; then
-	echo "unable to source memlib.sh (\$?=${res}). Does if exist?"
-	exit 1
-fi
-
-echo meta.queue=$QUEUE
-if [ ! -f /acogpr/meta/$QUEUE ]; then
-	echo "ERROR: /acogpr/meta/$QUEUE does not exist. Don't know where to search memory lookup file..."
-	echo "Using default value which is probably wrong ..."
-	val=10
-else
-	memlookup=$(($mem/102400))
-	echo meta.memlimit=${memlookup}00M
-	val=$(get_xmx /acogpr/meta/$QUEUE $memlookup )
-fi 
-xmx="-Xmx"$val"00M"
-echo "meta.xmx=$xmx (calculated or estimated!)"
-echo meta.cp=${cp}
-echo meta.hostname=$HOSTNAME
-echo meta.date.start=`date`
-echo meta.numslots=$NSLOTS
-
-java -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 ${xmx} -classpath $cp $JAVA_OPTS de.ismll.console.Generic "$@"
-
-echo meta.date.end=`date`
+trace meta.date.end=`date`
 
 } #of function run()
 
