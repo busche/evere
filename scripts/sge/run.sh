@@ -31,14 +31,14 @@ info2 "including java target definitions"
 # this function runs the java program.
 function on_run() {
 
-info2 meta.hostname=$HOSTNAME
-trace meta.date.start=`date`
-trace meta.numslots=$NSLOTS
+	info2 meta.hostname=$HOSTNAME
+	trace meta.date.start=`date`
+	trace meta.numslots=$NSLOTS
 
-# use the defined function to call the java executable with these parameters
-run_java de.ismll.console.Generic "$@"
+	# use the defined function to call the java executable with these parameters
+	run_java de.ismll.console.Generic "$@"
 
-trace meta.date.end=`date`
+	trace meta.date.end=`date`
 
 } #of function run()
 
