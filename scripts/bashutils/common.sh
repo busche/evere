@@ -14,10 +14,8 @@
 #
 function fn_exists()
 {
-	type $1 2>/dev/null | grep -q 'shell function'
+	type $1 2>/dev/null | grep -q 'function'
 }
-
-
 
 
 # logging methods
