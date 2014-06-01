@@ -9,6 +9,8 @@
 # generates dynamic java options (memory setting, classpath definitions)
 #
 function java_generate_opts(){
+
+	PATH=$PATH:.
 	cp="."
 	for f in `ls *.jar -1`; do
 		cp=${cp}":"${f}
@@ -52,7 +54,7 @@ function java_generate_opts(){
 function on_init() {
 	# check whether Java launches at all
 	info2 "Checking whether java is launchable (using the current configuration options)"
-	run_java -version > /dev/null 2>&1
+	run_java -version 
 	err=$?
 
 	if [ ! $err = 0 ]; then
@@ -60,6 +62,7 @@ function on_init() {
 	else	
 		info2 "Yes. java is launchable"
 	fi
+	return $err
 }
 
 # utility function to invoke Java using the passed parameters
