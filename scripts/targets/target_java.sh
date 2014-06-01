@@ -3,6 +3,8 @@
 #
 #
 
+. common.sh 
+
 #
 # generates dynamic java options (memory setting, classpath definitions)
 #
@@ -49,12 +51,14 @@ function java_generate_opts(){
 # stub on_init function: checks whether java can be launched with standard parameters
 function on_init() {
 	# check whether Java launches at all
-	echo "hallo"
-	run_java -version > /dev/null
+	info2 "Checking whether java is launchable (using the current configuration options)"
+	run_java -version > /dev/null 2>&1
 	err=$?
 
 	if [ ! $err = 0 ]; then
 		warn "Failed to launch java executable. Returned errorlevel $err"
+	else	
+		info2 "Yes. java is launchable"
 	fi
 }
 
@@ -64,11 +68,25 @@ run_java(){
 		export JAVA_HOME=/usr/java/latest
 	fi
 	
-	JAVA_OPTS=" $JAVA_OPTS -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 "
+	CUSTOM_JAVA_OPTS=" -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 "
 	java_opts=$(java_generate_opts)
 	
-	echo "calling java $JAVA_OPTS $java_opts ""$@"
-	java $JAVA_OPTS $java_opts "$@"
+	echo "calling java $JAVA_OPTS $CUSTOM_JAVA_OPTS $java_opts ""$@"
+	java $JAVA_OPTS $CUSTOM_JAVA_OPTS $java_opts "$@"
+
+}
+
+# utility function to invoke Java using the passed parameters
+run_bootstrap_java(){
+	if [ $JAVA_HOME'w' = 'w' ]; then
+		export JAVA_HOME=/usr/java/latest
+	fi
+	
+	CUSTOM_JAVA_OPTS=" -XX:ParallelGCThreads=1 -XX:ConcGCThreads=1 "
+	java_opts=$(java_generate_opts)
+	
+	echo "calling java $JAVA_OPTS $CUSTOM_JAVA_OPTS $java_opts de.ismll.console.Generic ""$@"
+	java $JAVA_OPTS $CUSTOM_JAVA_OPTS $java_opts de.ismll.console.Generic "$@"
 
 }
 
