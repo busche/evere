@@ -20,16 +20,16 @@ function fn_exists()
 
 # logging methods
 fn_exists trace || function trace () {
-	echo "TRACE: "$*
+	echo `date +%Y%m%d-%R:%S`" [TRACE] "$*
 }
 fn_exists info2 || function info2() {
-	echo `date`" INFO: "$*
+	echo `date +%Y%m%d-%R:%S`" [INFO ] "$*
 }
 fn_exists warn || function warn() {
-	echo `date`" WARNING: "$*
+	echo `date +%Y%m%d-%R:%S`" [WARN ] "$*
 }
 fn_exists error || function error() {
-	echo "ERROR: "$*
+	echo `date +%Y%m%d-%R:%S`" [ERROR] "$*
 }
 
 
