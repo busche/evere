@@ -33,12 +33,12 @@ function guarded_run() {
 	on_init "$@"
 	trace "on_init finished"
 	on_init_ret=$?
-	
-	if [ 'x'$in_init_ret = 'x' ]; then
+#	echo "ret:" $on_init_ret
+	if [ 'x'$on_init_ret = 'x' ]; then
 		error "guarded_run:: invalid return value (null) from do_init method. Please return an appropriate return value (e.g., 0 on success)"
 		return 1;
 	else
-		if [ $in_init_ret = 0 ]; then
+		if [ $on_init_ret = 0 ]; then
 			# call on_run
 			trace "calling on_run"
 			echo "starting at `date`"
