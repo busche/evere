@@ -6,6 +6,7 @@ on_success;
 on_exit;
 
 on_init -> on_run;
+on_init -> on_abort [label="on_init.return!=0"];
 on_run -> on_success [label="on_run.return==0"];
 on_run -> on_abort [label="on_run.return!=0"];
 on_success -> on_exit;

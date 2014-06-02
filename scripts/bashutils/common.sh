@@ -14,21 +14,22 @@
 #
 function fn_exists()
 {
-	type $1 2>/dev/null | grep -q 'shell function'
+	type $1 2>/dev/null | grep -q 'function'
 }
-
-
 
 
 # logging methods
-fn_exists on_init || function trace () {
-	echo "TRACE: "$*
+fn_exists trace || function trace () {
+	echo `date +%Y%m%d-%R:%S`" [TRACE] "$*
 }
-fn_exists on_init || function error() {
-	echo "ERROR: "$*
+fn_exists info2 || function info2() {
+	echo `date +%Y%m%d-%R:%S`" [INFO ] "$*
 }
-fn_exists on_init || function warn() {
-	echo `date`" WARNING: "$*
+fn_exists warn || function warn() {
+	echo `date +%Y%m%d-%R:%S`" [WARN ] "$*
+}
+fn_exists error || function error() {
+	echo `date +%Y%m%d-%R:%S`" [ERROR] "$*
 }
 
 
