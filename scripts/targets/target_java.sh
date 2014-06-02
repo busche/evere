@@ -62,7 +62,21 @@ function on_init() {
 	else	
 		info2 "Yes. java is launchable"
 	fi
+	#echo $err
 	return $err
+}
+
+function on_abort() {
+	info2 "printing environment"	
+	set
+
+	info2 "printing ulimit"
+	ulimit -a
+
+	info2 "printing kernel info"
+	uname -a
+
+	
 }
 
 # utility function to invoke Java using the passed parameters
