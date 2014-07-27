@@ -22,6 +22,17 @@ EveRe - Evening Research
 
 
 * everywhere: checklists!
+* define sucess criteria: when has a task completed? -> Define the task before
+starting it (making a hypothese...).
+** define 'delivery criteria' (tasks / properties) a product / software /
+algorithm needs to fulfil in order to be successful. These are tasks on the 
+checklists for the individual work package / part of the work.
+* TODO in this book: Define typical success criteria in each sub-step which
+need to be adapted to the needs of the reader.
+** Example: Which loss is reported? The one that was optimized for?
+** Each submodule / processing step needs to be separated and separable *in
+code* -> no sharing of code (exept reading and writing data structures to
+support testing capabilities). Each submodule has an *own* versioning.
 
 == unsorted
 
@@ -42,6 +53,8 @@ highly structured work; daily progress control required
 ** 'staging directories' ? -> folder "input", folder "output"?
 * Related to blackbox-testing in software testing:
 ** check of interfaces (input and output data and arguments) per module / processing step
+** define blackbox tests of interface (e.g., processing modules). Pass null
+values to parameters, etc.)
 
 === Modules
 
@@ -50,7 +63,10 @@ highly structured work; daily progress control required
 ** related to versioning, e.g., in Maven. Each module has its own versioning / development cycle. Milestones 'combine' different modules in different versions. Cf. OSGi
 ** define success criteria per module (e.g., data is successfully / transparently read and written, (baseline-)module can be trained and successfully applied to data)
 ** define checklists per module
-
+* document input and output of the modules. Use common, abstract data types as
+input and output to support exchangeablility.
+* Idea: Take the time you need to implement a module / implement new features
+/ ... to get an approximate estimate wrt. paper deadlines.
 
 
 ==== requirements for individual subtaskstasks
