@@ -272,26 +272,3 @@ http://dl.acm.org/citation.cfm?id=1188906
 ===== Output of the layer
 
 
-
-== Chapter 2: Implementation
-
-=== Introduction
-
-Usage of Linux Batch cluster, Java and Bash
-
-
-
-=== Proposed file and folder structure
-.
-=== Bootstrap for Component Initialization and Usage	
-.
-=== Database scheme for regression testing
-.
-== Chapter 3: Case Studies
-.
-=== MHH Use Case
-.
-=== AcoGPR? <- sth. better would be desirable...
-.
-=== Springleaf / Kaggle
-
