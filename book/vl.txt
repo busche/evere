@@ -1,0 +1,11 @@
+== Vorlesungssplittung
+
+1) Overview,  organization,  goals
+2) Overall pipeline and general split of tasks; general aim of research (what is the aim we are trying to reach: RMSE,  etc.); Tools; CRISP-DM
+3) data preparation and data analysis; data splits
+4) data representation (on disc,  in memory,  etc. caching,  bla bla) and requirements on input / output formats (standard formats,  techniques for reading and writing,  interfac
+5) training a model / model selection
+6) applying a model / user interface usage
+7) reporting results; data visualization; discussion with the tutor
+
+
