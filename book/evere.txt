@@ -97,7 +97,7 @@ TODO: Write
 
 TODO: Write
 
-=== Introduction
+== Introduction (CRISP-DM)
 
 Different application scenarios: Machine Learner and Prototype developer.
 
@@ -105,13 +105,51 @@ In general: each successive step contains all information from the previous step
 
 Requirement of the overall process / aim of the discussion here: Identify common components and roles, e.g., models should be applicable to internal, pre-split datasets and new data, e.g., uploaded to a Web Interface
 
+CRISP-DM layers: (see https://en.wikipedia.org/wiki/Cross_Industry_Standard_Process_for_Data_Mining[Wikipedia])
+
+* Business Understanding
+** Objectives:
+*** understanding the project objectives
+*** unterstanding the requirements from a business perspective
+*** converting this knowledge into a data mining problem definition
+* Data Understanding
+** Objectives:
+*** initial data collection 
+**** Assistance: collect data from individual data sources and put them to a uniform location
+*** activities in order to get familiar with the data (manual and interactive analysis)
+* Data Preparation
+** Objectives:
+*** activities to construct the final dataset 
+**** Assistance: Stage 2 - create a single (relational) dataset out of the set of individual, maybe preprocessed, data sources
+**** Assistance: Allow global preprocessing of the data (not only from individual sources, but joint preprocessing)
+** Assistance: individual folders data set / aspect. E.g., for varying data formats (libsvm, csv), etc.
+** Assistance: Create multiple splits for the data
+* Modeling
+** Objectives:
+*** various modeling techniques are selected and applied
+**** Assistance: Ability to define multiple algorithms which are valid for the type of dataset created in the step above.
+*** their parameters are calibrated to optimal values
+**** Assistance: Hyperparameter search (in general)
+** general models / methods to work on individual splits
+* Evaluation
+** Objectives:
+*** thoroughly evaluate the model
+**** Assistance: Determine best model based on hyperparameter search to maximize / minimize optimization criterion
+**** Assistance: Apply model on test data
+**** Assistance: Evaluate model on test data
+**** Assistance: Compute average / stddev scores
+*** review individual steps
+*** be certain that the model properly achieves the business objectives
+* Deployment
+** Objectives:
+*** Sharing the new knowledge, e.g., by generating a report, implementing a repeatable data scoring or data mining process
+*** The customer needs to know the steps to be carried out in order to use the model.
+
+
+
 how and where to split components:
 
-* Data preparation
 * Data representation and E/R Diagram for the overall progress (1:n relationships everywhere -> hard to compute)
-* Model training
-* Selecting an optimal model (possibly due to divergant selection criteria)
-* Applying the Model
 
 Test each module(blackbox). -> input / return values are checked.
 
@@ -123,26 +161,47 @@ IDEA: Article in german magazin?
 
 
 
-
-==== Process Overview
+== Process Overview
 
 in general: make 2 hierarchies: the first hierarchy is the broad overview of the overall process; the second is some architectural view on individual sub-components and interactions, e.g., common interfaces for input and output; as well as concrete implementations. The result should be sth. like one "mini-framework" per layer / high-level component. In Java, e.g., customerdata.input; customerdata.output; customerdata.transformation, and ml.input; ml.method; ml.output? -> Reference different ways to decompose requirements into a package structure.
 
-==== Customer Data
+=== Business Understanding
 
 * What kind of data to consider?
 * What kind of variables?
 * etc.: not elaborating; give references to books.
 
-===== Checklist:
+
+==== Interfaces
+
+===== Input of the layer
+
+* reference to the previous layer
+
+===== Output of the layer
+
+
+==== Checklist
 
 * Query and Define project objective from the customer (what is the goal?) Try to formalize it (such that you can justify that you reached the objectives at the end of the project).
 
-==== ML representation
+=== Data Understanding
+
+tbd
+
+=== Data Preparation
 
 * Define a suitable representation of the data to directly apply ML methods. The representation should also be a valid input for external implementations such as *state some standard implementation of C4.5, RF, LibSVM, etc. here*, so foreign methods can readily be applied to in-house data.
 
-===== Checklist:
+==== Interfaces
+
+===== Input of the layer
+
+* reference to the previous layer
+
+===== Output of the layer
+
+==== Checklist
 
 * Document, which data (columns) is derived from which source. Also document potential side effects.
 * Error conditions are defined (e.g., value ranges are determined for a later check of validity of customer data input).
@@ -158,7 +217,7 @@ in general: make 2 hierarchies: the first hierarchy is the broad overview of the
 * splits are reproducable
 
 
-=== Learning Models
+=== Modelling
 
 The aim is to generalize over given data and determine a 'model'.
 The model contains: 
@@ -168,37 +227,60 @@ The model contains:
 (d) the implementation for actually applying the model to data.
 Most current approaches only consider (a) to be the output of this step!
 
+==== Interfaces
 
-Input of the layer:
+===== Input of the layer
 
+* reference to the previous layer
 * train / test (here: validation part) split of the data in a valid ML format
 * hyperparameters
 
-Output of the layer:
+===== Output of the layer
  
 * parameters
-* 
 
-=== Applying Models and Predicting Labels
+=== Evaluation
 
 The aim is to apply the model using the model parameters (output of the former step)
 
-===== Checklist:
+
+==== Interfaces
+
+===== Input of the layer
+
+* reference to the previous layer
+
+===== Output of the layer
+
+==== Checklist
+
 * Error conditions (e.g., invalid input; new data out of range) are handled appropriately (e.g., output a warning; throw an exception)
 * application to new data is possible; the documentation is sufficient for an outsider to apply the model using pre-determined (hyper)parameters to own data.
 * The implementation for applying the model has no dependencies on the training phase
 * Scores are reported on the loss the model was optimized for
 
 
-=== relations
+==== relations
 
 * Vanschoren - experiment database (for continuous monitoring)
 * Krohn-Grimberghe - monitoring performance on individual instances
 ** requirement: implementations should output instance-individual performance scores
 
-==== V-Modell / process models
+===== V-Modell / process models
 
 http://dl.acm.org/citation.cfm?id=1188906
+
+=== Deployment
+
+
+==== Interfaces
+
+===== Input of the layer
+
+* reference to the previous layer
+
+===== Output of the layer
+
 
 
 == Chapter 2: Implementation
@@ -220,5 +302,6 @@ Usage of Linux Batch cluster, Java and Bash
 === MHH Use Case
 .
 === AcoGPR? <- sth. better would be desirable...
-
+.
+=== Springleaf / Kaggle
 
