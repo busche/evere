@@ -1,0 +1,6 @@
+
+== Aspects
+
+* Reproducable machine learning experiments
+** Allow regression tests
+
