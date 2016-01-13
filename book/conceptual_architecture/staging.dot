@@ -1,0 +1,13 @@
+digraph staging {
+
+rankdir=LR;
+
+stage0[label="Stage 0: Obtaining data", shape=box];
+stage1[label="Stage 1: Global preprocessing", shape=box];
+stage2[label="Stage 2: Splitting data", shape=box];
+
+
+stage0->stage1[label="1:1"];
+stage1->stage2[label="1:n"];
+
+}

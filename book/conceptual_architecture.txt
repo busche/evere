@@ -1,0 +1,82 @@
+
+
+== Conceptual Architecture
+
+Figure: Stages
+
+For the following stages, each stage gets its own internal versioning strategy.
+Therefore, one may regard each stage as being a software component, while each such components is individually developed (possibly by different researchers).
+
+Definition stage version:
+Let the stage version be a final release version of some stage.
+The stage version is uniquely identified by a unique versioning string (across all versioning strings for the stage under consideration).
+It uniquely determines the input format and the output format.
+
+Input format and output format may be incompatible between different stage versions. 
+Successive layers shall explicitly state their compatibility to the version range of preceding stages.
+
+For each of the following layers, one needs to decide on the cardinality of the relationship between the current and the previous stage.
+1:n relationships may be relalized using two strategies:
+(a) the 'many' relation is implicitly realized as the the current stage is released multiple times (causing multiple versions and consequently many output formats), 
+(b) using dedicated output locations for different processing strategies (causing multiple output results for a single stage version)
+
+Neither strategy is preferrable over the other in all situations.
+As an example, consider a dataset for which different splits correspond to different problem settings, e.g.,  the new-user or new-item problem in recommender systems.
+It does not make sense to release the split generation script for the new-user problem as one version, whereas the new-item problem becomes another version, as users tend to use the 'latest' version of a component (stage) and hiding a certain split type in a historic version is at risk of becoming incompatible with ongoing code changes.
+On the contrary, extending the preprocessing step by adding additional features (manually derived from the source data) is more likely to correspond to a new version of the preprocessing stage, as the previous preprocessing technique likely becomes obsolete (attribute filtering is more likely to be a task of the model derivation and selection step).
+
+
+The project management handbook shall contain the following information:
+
+. Logical inputs and outputs for each stage
+.. example inputs and outputs for each stage
+.. invalid inputs and outputs for each stage (used for unit testing the layers)
+.. argumentation on why such a layout was chosen
+. means to access the data (e.g., how to obtain permission to the servers where the data is stored on, access permissions to databases, etc.)
+. script names and parameters / environment variables for each stage (which script shall be called to invoke a certain stage?)
+. Argumentation on the cardinality of the current layer and the previous layer along with strategies to experiment with different implementation variants of the current layer
+
+=== Stage 0: Obtaining data
+
+The aim of this stage is to obtain data from some location to a well-defined location.
+For the sake of transparency between sucessive layers, this layer is only used to download data from some location.
+Therefore, only very few versions will exist for this layer.
+
+Examples include the following scenarios: 
+
+. file-system related
+.. downloading the data from some internet location,  e.g., Kaggle, and extract it to a local file system path, 
+.. Copying the data from a colleagues server to your local machine in order to prevent remote modifications to change your data analysis results on her data, 
+. database related
+.. uploading some csv-data to 'your' database server
+
+Unit testing at this stage includes the following aspects: 
+(a) checking the validity of the source data (general assumptions such as the existance of the source data and assertions on the source format), 
+(b) checking the validity of the logical output of this layer, such as the existance of all required files, and basic assumptions, e.g., on the number of attributes in each file, 
+(c) checking the transformation of the data itself (e.g., if the input is a zip-file containing three files, the output should be exactly three files having the pre-specified amount of bytes, and furhtermore may need to be byte-identical to some pre-defined test data)
+
+Tests for aspects (a) and (b) may be derived from the project handbook, whereas aspect (c) may be specific to a certain version of this stage.
+
+
+=== Stage 1: Global preprocessing of the data
+
+Global preprocessing actions include:
+
+. attribute transformation (e.g. converting string values to categorical variables),
+. attribute normalization and standardization
+. elimination of outliers (keeping only instances whose attributes are in the [5...95] percent range
+
+Preprocessing steps are performed on all the data
+
+There is usually a 1:1 relationship between this layer and the previous layer, as only one specific preprocessing pipeline is used.
+Anyhow, alternate preprocessing techniques 
+
+Checklist:
+
+. If the model is about to be applied on previously unseen data, preprocessing parameters need to be stored in order to be re-applied to such new data.
+
+
+
+=== Stage 2: Splitting the data
+
+
