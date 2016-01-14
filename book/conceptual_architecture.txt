@@ -38,7 +38,7 @@ The project management handbook shall contain the following information:
 
 === Stage 0: Obtaining data
 
-The aim of this stage is to obtain data from some location to a well-defined location.
+The aim of this stage is to obtain data from some location to a well-defined location, sometimes called a landing-zone (cf. Forrester research on big data design patterns).
 For the sake of transparency between sucessive layers, this layer is only used to download data from some location.
 Therefore, only very few versions will exist for this layer.
 
